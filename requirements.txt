@@ -1,0 +1,7 @@
+Plaintext
+yfinance
+pandas
+numpy
+matplotlib
+scipy
+jupyter
