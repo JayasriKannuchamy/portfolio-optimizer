@@ -22,6 +22,36 @@ An implementation of Harry Markowitz's **Modern Portfolio Theory (MPT)** using 5
 ## Efficient Frontier Chart
 ![Efficient Frontier](images/efficient_frontier.png)
 
+
+## Part 2 — Out-of-sample test: does the optimizer predict the future?
+
+Part 1 was graded on the same 2021–2025 data the weights were learned from.
+Part 2 splits honestly: **train on 2015–2020, freeze the weights, test on 2021–2025.**
+
+| Metric | Optimized (OOS) | Equal weight |
+|---|---|---|
+| $1 becomes | $4.04 | $3.25 |
+| annual return | 34.7% | 26.5% |
+| annual volatility | 36.6% | 23.8% |
+| Sharpe ratio | 0.95 | **1.12** |
+| max drawdown | −54% | **−35%** |
+
+The optimized portfolio won on raw dollars — but only because its frozen
+2015–2020 recipe was 40% NVDA, right before the largest single-stock run in
+market history. It carried far more risk and a −54% crash in 2022; on
+risk-adjusted terms, simple equal-weighting won.
+
+The two training windows even disagree with each other (below). **Optimal
+weights are unstable because input estimates are unstable** — the core
+practical problem of Markowitz optimization, demonstrated rather than asserted.
+
+![Weight comparison](images/weights_comparison.png)
+![Out of sample](images/out_of_sample.png)
+
+This is not a prediction model; it computes optimal weights for the past.
+Future work: rolling walk-forward re-optimization, weight caps, shrinkage
+estimators.
+
 ## How to Run
 ```bash
 pip install -r requirements.txt
